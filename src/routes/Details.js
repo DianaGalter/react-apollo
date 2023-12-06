@@ -30,6 +30,9 @@ const Column = styled.div`
 `;
 
 const Poster = styled.div`
+  background-image: url(${(props) => props.bg});
+  background-size: cover;
+  background-position: center center;
   width: 25%;
   height: 60%;
   background-color: transparent;
@@ -49,19 +52,19 @@ const Description = styled.p`
 
 export default () => {
   const { id } = useParams();
-  const { data } = useQuery(GET_MOVIE, {
+  const { data, loading } = useQuery(GET_MOVIE, {
     variables: { id },
   });
   return (
     <Container>
       <Column>
-        <Title>{data?.movie?.title}</Title>
+      <Title>{loading ? "Загрузка..." : data?.movie?.title}</Title>
         <Subtitle>
           {data?.movie?.language} · {data?.movie?.rating}
         </Subtitle>
         <Description>{data?.movie?.description_intro}</Description>
       </Column>
-      <Poster></Poster>
+      <Poster bg={data?.movie?.medium_cover_image}></Poster>
     </Container>
   );
 };
